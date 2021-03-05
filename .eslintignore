@@ -1,0 +1,19 @@
+src/reportWebVitals.ts
+src/setupTests.ts
+tailwind.config.js
+postcss.config.js
+.eslintrc.js
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+/tests/matchMedia
+
+# production
+/build
+
+# ci/cd
+/.ci
+/docker
