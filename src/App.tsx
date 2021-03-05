@@ -1,7 +1,7 @@
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">Fresh</header>
+    <div>
+      <header className="mt-4">Fresh</header>
     </div>
   )
 }
