@@ -6,7 +6,8 @@ import App from 'App'
 import store from 'store'
 import AppRouter from 'router'
 import reportWebVitals from 'reportWebVitals'
-import 'assets/styles/index.css'
+import 'assets/styles/index.less'
+import 'assets/styles/override.css'
 
 ReactDOM.render(
   <Provider store={store}>
