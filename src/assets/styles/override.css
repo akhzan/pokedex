@@ -1,3 +1,16 @@
 .ant-tag {
   margin-right: 0;
 }
+
+.home__sort .ant-select-selector {
+  padding: 0 !important;
+}
+
+.home__sort .ant-select-arrow {
+  right: 0 !important;
+}
+
+.home__sort .ant-select-selection-item {
+  padding-right: 24px !important;
+  text-align: right;
+}
