@@ -13,7 +13,7 @@ const useRoute = (): RouteState => {
     history.push(routes.home)
   }
   const goToDetail = (id: string) => {
-    history.push(routes.detail.replace(':id', id))
+    history.push(routes.detail.replace(':id', id.toLowerCase()))
   }
   const goBack = () => {
     history.goBack()

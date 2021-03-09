@@ -1,14 +1,29 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
+import { Col, Row } from 'antd'
+import { useDispatch } from 'react-redux'
+import { fetchList } from 'store/pokemon'
+import images from 'assets/images'
 
 interface Props {
   children: ReactNode
 }
 
 const App = ({ children }: Props) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchList())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
-    <div className="dark:bg-gray-800 bg-gray-200 min-w-screen min-h-screen p-4 flex justify-center">
-      <div className="w-full md:w-3/4 lg:w-2/3">{children}</div>
-    </div>
+    <Row
+      style={{ backgroundImage: `url(${images.ContainerBg})` }}
+      justify="center"
+      className="dark:bg-gray-800 bg-gray-200 min-w-screen min-h-screen p-4"
+    >
+      <Col xs={24} sm={18}>
+        {children}
+      </Col>
+    </Row>
   )
 }
 

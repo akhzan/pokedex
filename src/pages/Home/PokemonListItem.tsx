@@ -1,5 +1,6 @@
 import { Card, Space } from 'antd'
 import PokemonType from 'components/Type'
+import useRoute from 'router/useRoute'
 
 interface Props {
   image: string
@@ -16,8 +17,12 @@ const PokemonListItem = ({
   number,
   types,
 }: Props) => {
+  const { goToDetail } = useRoute()
   return (
-    <div className="flex flex-col items-center">
+    <div
+      className="flex flex-col items-center transform transition duration-200 hover:scale-105 cursor-pointer"
+      onClick={() => goToDetail(name.toLowerCase())}
+    >
       <div style={{ height: '45px' }} />
       <Card className="text-center relative w-full">
         <div style={{ height: '24px' }} />

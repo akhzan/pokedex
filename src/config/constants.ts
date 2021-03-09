@@ -27,3 +27,12 @@ export const SORTS = {
   numberAsc: { code: 'numberAsc', label: 'Lowest Number' },
   numberDsc: { code: 'numberDsc', label: 'Highest Number' },
 }
+
+export const STATS: { [key: string]: string } = {
+  hp: 'HP',
+  attack: 'ATK',
+  defense: 'DEF',
+  'special-attack': 'SATK',
+  'special-defense': 'SDEF',
+  speed: 'SPD',
+}

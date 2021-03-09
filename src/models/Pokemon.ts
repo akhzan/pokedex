@@ -1,3 +1,10 @@
+export interface PokemonDetail {
+  stats?: { name: string; value: number }[]
+  evolutions?: Pokemon[]
+  next?: Pokemon
+  prev?: Pokemon
+}
+
 export default interface Pokemon {
   abilities: string[]
   detailPageURL: string
@@ -13,4 +20,5 @@ export default interface Pokemon {
   ThumbnailImage: string
   id: number
   type: string[]
+  detail?: PokemonDetail
 }

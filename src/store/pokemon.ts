@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import Pokemon from 'models/Pokemon'
+import Pokemon, { PokemonDetail } from 'models/Pokemon'
 import { AppThunk } from 'store'
 import pokemons from 'assets/data/pokemons.json'
 import { POKEMON_ITEMS_PER_FETCH, SORTS } from 'config/constants'
+import { getPokemonDetailApi } from 'api/pokemon'
 
 interface Filter {
   search: string
@@ -16,6 +17,7 @@ interface PokemonState {
   listData: { data: string[]; count: number }
   listDataView: string[]
   loading: boolean
+  loadingDetail: boolean
   raw: { [key: string]: Pokemon }
   rawSequence: string[]
 }
@@ -25,6 +27,7 @@ const initialState: PokemonState = {
   listData: { data: [], count: 0 },
   listDataView: [],
   loading: false,
+  loadingDetail: false,
   raw: {},
   rawSequence: [],
 }
@@ -52,6 +55,16 @@ const pokemonSlice = createSlice({
         ...payload,
       },
     }),
+    getDetailStart: (state) => ({ ...state, loadingDetail: true }),
+    getDetailFailed: (state) => ({ ...state, loadingDetail: false }),
+    getDetailSuccess: (state, { payload }: PayloadAction<Pokemon>) => ({
+      ...state,
+      raw: {
+        ...state.raw,
+        [payload.name.toLowerCase()]: payload,
+      },
+      loadingDetail: false,
+    }),
   },
 })
 
@@ -61,6 +74,9 @@ export const {
   getListFailed,
   getListMoreSuccess,
   setFilter,
+  getDetailStart,
+  getDetailSuccess,
+  getDetailFailed,
 } = pokemonSlice.actions
 
 export default pokemonSlice.reducer
@@ -148,5 +164,40 @@ export const fetchListFiltered = (filterParam: Filter): AppThunk => async (
     dispatch(getListSuccess(payload))
   } catch (err) {
     dispatch(getListFailed())
+  }
+}
+
+export const fetchDetail = (pokemonName: string): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  try {
+    const { pokemon } = getState()
+    const { raw, rawSequence } = pokemon
+    const pokemonData = raw[pokemonName.toLowerCase()] || {}
+    if (pokemonData.detail) return
+    dispatch(getDetailStart())
+    const detail: PokemonDetail = await getPokemonDetailApi(pokemonName)
+      .then((res) => {
+        return {
+          stats: res.stats.map((stat: any) => ({
+            name: stat?.stat?.name || '',
+            value: stat?.base_stat || 0,
+          })),
+        }
+      })
+      .catch(() => ({}))
+    rawSequence.map((seq) => {
+      const pokemonSeq = raw[seq.toLowerCase()] || {}
+      if (pokemonSeq.id === pokemonData.id - 1) {
+        detail.prev = pokemonSeq
+      } else if (pokemonSeq.id === pokemonData.id + 1) {
+        detail.next = pokemonSeq
+      }
+      return seq
+    })
+    dispatch(getDetailSuccess({ ...pokemonData, detail }))
+  } catch (err) {
+    dispatch(getDetailFailed())
   }
 }

@@ -1,19 +1,15 @@
-import { useCallback, useEffect } from 'react'
-import { Button, Card, Col, Input, Row, Select } from 'antd'
-import { SearchOutlined, SyncOutlined } from '@ant-design/icons'
+import { useCallback } from 'react'
+import { Card, Col, Input, Row, Select } from 'antd'
+import { AimOutlined, BlockOutlined, SearchOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { capitalize, debounce } from 'lodash'
 
-import {
-  fetchList,
-  fetchListFiltered,
-  fetchMoreList,
-  setFilter,
-} from 'store/pokemon'
+import { fetchListFiltered, fetchMoreList, setFilter } from 'store/pokemon'
 import { RootState } from 'store/root-reducer'
 import InfiniteScroll from 'components/InfiniteScroll'
 import { SORTS, TYPE_COLORS } from 'config/constants'
 import PokemonType from 'components/Type'
+import Images from 'assets/images'
 import PokemonListItem from './PokemonListItem'
 
 const Home = () => {
@@ -26,8 +22,8 @@ const Home = () => {
     raw,
     rawSequence,
   } = useSelector((state: RootState) => state.pokemon)
-  const changeFilter = (params: any) => {
-    dispatch(setFilter({ ...filter, ...params }))
+  const changeFilter = async (params: any) => {
+    await dispatch(setFilter({ ...filter, ...params }))
     dispatch(fetchListFiltered({ ...filter, ...params }))
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,49 +33,26 @@ const Home = () => {
     debounceConfirmSearch({ search: e.target.value })
   }
 
-  useEffect(() => {
-    dispatch(fetchList())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div className="mt-12">
-      <h1 className="text-3xl font-bold mb-12">Pokedex</h1>
-      <div className="flex items-center mb-6">
-        <Input
-          className="flex-auto mr-3"
-          placeholder="Search your pokemon here"
-          prefix={<SearchOutlined />}
-          value={filter.search}
-          onChange={changeSearchDebounce}
-        />
-        <Button type="primary" icon={<SyncOutlined />} className="px-12">
-          Surprise me!
-        </Button>
-      </div>
-      {/* <div className="flex justify-between mb-4">
-        <Select
-          defaultValue="lucy"
-          bordered={false}
-          style={{ marginLeft: '-11px' }}
-        >
-          <Select.Option value="jack">Ascending</Select.Option>
-          <Select.Option value="lucy">Descending</Select.Option>
-        </Select>
-        <div>
-          <span className="mr-3">from</span>
-          <InputNumber min={1} max={1000} defaultValue={1} />
-          <span className="mx-3">to</span>
-          <InputNumber min={1} max={1000} defaultValue={1000} />
-        </div>
-      </div> */}
+      <Row align="middle">
+        <img src={Images.Logo} alt="" className="w-12 h-auto" />
+        <h1 className="text-3xl font-bold ml-4">Pokedex</h1>
+      </Row>
+      <Input
+        className="mb-6 mt-12"
+        placeholder="Search your pokemon here"
+        prefix={<SearchOutlined />}
+        value={filter.search}
+        onChange={changeSearchDebounce}
+      />
       <Row gutter={[8, 8]} className="mb-8">
         <Col xs={12} sm={12} md={6}>
           <Select
             allowClear
             placeholder="Type"
             className="w-full"
-            suffixIcon={<SearchOutlined />}
+            suffixIcon={<AimOutlined />}
             value={filter.type}
             onChange={(type) => changeFilter({ type })}
           >
@@ -95,7 +68,7 @@ const Home = () => {
             allowClear
             placeholder="Weakness"
             className="w-full"
-            suffixIcon={<SearchOutlined />}
+            suffixIcon={<BlockOutlined />}
             value={filter.weakness}
             onChange={(weakness) => changeFilter({ weakness })}
           >
@@ -106,7 +79,7 @@ const Home = () => {
             ))}
           </Select>
         </Col>
-        <Col xs={12} sm={12}>
+        <Col xs={24} sm={24} md={12}>
           <Row justify="end">
             <Select
               style={{ width: 120 }}
@@ -123,41 +96,8 @@ const Home = () => {
             </Select>
           </Row>
         </Col>
-        {/* <Col xs={12} sm={12} md={6}>
-          <Select
-            placeholder="Type"
-            className="w-full"
-            suffixIcon={<SearchOutlined />}
-          >
-            <Select.Option value="jack">Jack</Select.Option>
-            <Select.Option value="lucy">Lucy</Select.Option>
-            <Select.Option value="Yiminghe">yiminghe</Select.Option>
-          </Select>
-        </Col>
-        <Col xs={12} sm={12} md={6}>
-          <Select
-            placeholder="Type"
-            className="w-full"
-            suffixIcon={<SearchOutlined />}
-          >
-            <Select.Option value="jack">Jack</Select.Option>
-            <Select.Option value="lucy">Lucy</Select.Option>
-            <Select.Option value="Yiminghe">yiminghe</Select.Option>
-          </Select>
-        </Col>
-        <Col xs={12} sm={12} md={6}>
-          <Select
-            placeholder="Type"
-            className="w-full"
-            suffixIcon={<SearchOutlined />}
-          >
-            <Select.Option value="jack">Jack</Select.Option>
-            <Select.Option value="lucy">Lucy</Select.Option>
-            <Select.Option value="Yiminghe">yiminghe</Select.Option>
-          </Select>
-        </Col> */}
       </Row>
-      <Row gutter={[8, 8]} className="mb-4">
+      <Row gutter={[16, 16]} className="mb-4">
         {(listDataView || []).map((pokemonName) => {
           const pokemon = raw[pokemonName.toLowerCase()]
           return (
