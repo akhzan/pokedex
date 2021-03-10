@@ -6,11 +6,11 @@ import { capitalize, debounce } from 'lodash'
 
 import { fetchListFiltered, fetchMoreList, setFilter } from 'store/pokemon'
 import { RootState } from 'store/root-reducer'
-import InfiniteScroll from 'components/InfiniteScroll'
+import InfiniteScroll from 'components/infinite-scroll'
 import { SORTS, TYPE_COLORS } from 'config/constants'
-import PokemonType from 'components/Type'
+import PokemonType from 'components/type'
 import Images from 'assets/images'
-import PokemonListItem from './PokemonListItem'
+import PokemonListItem from './item'
 
 const Home = () => {
   const dispatch = useDispatch()

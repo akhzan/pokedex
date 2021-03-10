@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { PUBLIC_URL } from 'config/env'
-import Home from 'pages/Home'
-import Detail from 'pages/Detail'
-import NotFound from 'pages/NotFound'
+import Home from 'pages/home'
+import Detail from 'pages/detail'
+import Compare from 'pages/compare'
+import NotFound from 'pages/not-found'
 import routes from './routes'
 
 const AppRouter = () => {
@@ -14,6 +15,9 @@ const AppRouter = () => {
         </Route>
         <Route exact path={routes.detail}>
           <Detail />
+        </Route>
+        <Route exact path={routes.compare}>
+          <Compare />
         </Route>
         <Route>
           <NotFound />

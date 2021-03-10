@@ -1,6 +1,6 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Row, Space, Spin, Tag } from 'antd'
-import PokemonType from 'components/Type'
+import PokemonType from 'components/type'
 import { STATS } from 'config/constants'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

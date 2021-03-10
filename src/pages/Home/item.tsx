@@ -1,5 +1,5 @@
 import { Card, Space } from 'antd'
-import PokemonType from 'components/Type'
+import PokemonType from 'components/type'
 import useRoute from 'router/useRoute'
 
 interface Props {
