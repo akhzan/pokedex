@@ -2,28 +2,12 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Row, Space, Spin, Tag } from 'antd'
 import PokemonType from 'components/type'
 import { STATS } from 'config/constants'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import useRoute from 'router/useRoute'
-import { fetchDetail } from 'store/pokemon'
-import { RootState } from 'store/root-reducer'
+import { useDetailState } from './state'
 
 const Detail = () => {
-  const dispatch = useDispatch()
-  const { id }: any = useParams()
-  const { raw, rawSequence, loadingDetail } = useSelector(
-    (state: RootState) => state.pokemon,
-  )
-  const { goToHome, goToDetail } = useRoute()
-  const pokemon = raw[id.toLowerCase()] || {}
-
-  useEffect(() => {
-    if (pokemon.name && id) {
-      dispatch(fetchDetail(id))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pokemon.name, id])
+  const { pokemon, loading, loadingDetail } = useDetailState()
+  const { goToHome, goToDetail, goToCompare } = useRoute()
 
   const renderMoreDetail = () => {
     if (loadingDetail) {
@@ -106,7 +90,7 @@ const Detail = () => {
   }
 
   const renderContent = () => {
-    if (!rawSequence.length) {
+    if (loading) {
       return <Card style={{ marginTop: '100px' }} loading />
     }
     if (!pokemon.name) {
@@ -145,7 +129,14 @@ const Detail = () => {
           </Space>
           {renderMoreDetail()}
           <Row justify="center" className="mt-12">
-            <Button onClick={goToHome}>Explore More Pokemon</Button>
+            <Space>
+              {pokemon.name && (
+                <Button onClick={() => goToCompare(pokemon.name)}>
+                  Compare
+                </Button>
+              )}
+              <Button onClick={goToHome}>Explore More Pokemon</Button>
+            </Space>
           </Row>
         </Card>
         <img
@@ -159,7 +150,7 @@ const Detail = () => {
   }
 
   return (
-    <Row justify="center" className="mt-8">
+    <Row justify="center">
       <Col xs={24} sm={24} md={18} lg={12}>
         {renderContent()}
       </Col>

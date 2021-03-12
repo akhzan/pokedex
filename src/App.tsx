@@ -18,7 +18,7 @@ const App = ({ children }: Props) => {
     <Row
       style={{ backgroundImage: `url(${images.ContainerBg})` }}
       justify="center"
-      className="dark:bg-gray-800 bg-gray-200 min-w-screen min-h-screen"
+      className="dark:bg-gray-800 bg-gray-200 min-w-screen min-h-screen px-8 py-12"
     >
       <Col xs={24} sm={18}>
         {children}

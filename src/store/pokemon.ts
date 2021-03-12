@@ -186,7 +186,7 @@ export const fetchDetail = (pokemonName: string): AppThunk => async (
           })),
         }
       })
-      .catch(() => ({}))
+      .catch(() => ({ stats: [] }))
     rawSequence.map((seq) => {
       const pokemonSeq = raw[seq.toLowerCase()] || {}
       if (pokemonSeq.id === pokemonData.id - 1) {

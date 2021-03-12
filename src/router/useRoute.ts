@@ -5,6 +5,7 @@ interface RouteState {
   goBack: () => void
   goToDetail: (id: string) => void
   goToHome: () => void
+  goToCompare: (first?: string) => void
 }
 
 const useRoute = (): RouteState => {
@@ -15,6 +16,9 @@ const useRoute = (): RouteState => {
   const goToDetail = (id: string) => {
     history.push(routes.detail.replace(':id', id.toLowerCase()))
   }
+  const goToCompare = (first?: string) => {
+    history.push(`${routes.compare}${first ? `?first=${first}` : ''}`)
+  }
   const goBack = () => {
     history.goBack()
   }
@@ -22,6 +26,7 @@ const useRoute = (): RouteState => {
     goBack,
     goToDetail,
     goToHome,
+    goToCompare,
   }
 }
 

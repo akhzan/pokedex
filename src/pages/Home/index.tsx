@@ -10,6 +10,8 @@ import InfiniteScroll from 'components/infinite-scroll'
 import { SORTS, TYPE_COLORS } from 'config/constants'
 import PokemonType from 'components/type'
 import Images from 'assets/images'
+import { Link } from 'react-router-dom'
+import routes from 'router/routes'
 import PokemonListItem from './item'
 
 const Home = () => {
@@ -35,9 +37,18 @@ const Home = () => {
 
   return (
     <div className="mt-12">
-      <Row align="middle">
-        <img src={Images.Logo} alt="" className="w-12 h-auto" />
-        <h1 className="text-3xl font-bold ml-4">Pokedex</h1>
+      <Row justify="space-between" align="bottom">
+        <Col>
+          <Row align="middle">
+            <img src={Images.Logo} alt="" className="w-12 h-auto" />
+            <h1 className="text-3xl font-bold ml-4">Pokedex</h1>
+          </Row>
+        </Col>
+        <Col>
+          <Link to={routes.compare} className="font-bold">
+            Compare
+          </Link>
+        </Col>
       </Row>
       <Input
         className="mb-6 mt-12"
